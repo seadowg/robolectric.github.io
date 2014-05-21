@@ -1,0 +1,113 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Robolectric</title>
+    <script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(["_setAccount", "UA-19269905-1"]);
+  _gaq.push(["_trackPageview"]);
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? '//ssl' : '//www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+    <link href="../images/favicon-6cf12dec.png" rel="icon" type="image/png" />
+    <link href="../stylesheets/application-5b0d8697.css" media="screen" rel="stylesheet" type="text/css" />
+    <script src="../javascripts/application-da39a3ee.js" type="text/javascript"></script>
+</head>
+
+<body>
+    <div id="wrapper">
+        <div id="header">
+            <ul class="nav navbar-nav pull-right">
+    <li>
+        <a href='http://robolectric.blogspot.com'>
+            <i class='glyphicon glyphicon-book'></i>
+            <span>Blog</span>
+        </a>
+    </li>
+    <li>
+        <a href='http://groups.google.com/group/robolectric'>
+            <i class='glyphicon glyphicon-envelope'></i>
+            <span>Mailing List</span>
+        </a>
+    </li>
+    <li>
+        <a href='/javadoc/index.html?overview-summary.html'>
+            <i class='glyphicon glyphicon-cog'></i>
+            <span>API Docs</span>
+        </a>
+    </li>
+</ul>
+        </div>
+
+        <div id="sidebar">
+            <a href="/"><img class="logo" src="../images/robolectric-7fb6698b.png" /></a><ul class='nav nav-stacked'><li class='nav-header'>Setup</li><li class='nav-item'><a href='/installation/'>Installation</a></li><li class='nav-item'><a href='/quick-start/'>Quick Start</a></li><li class='nav-item'><a href='/eclipse-quick-start/'>Eclipse Quick Start</a></li><li class='nav-item'><a href='/download/'>Downloads</a></li></ul><ul class='nav nav-stacked'><li class='nav-header'>User Guide</li><li class='nav-item'><a href='/getting-started/'>Getting Started</a></li><li class='nav-item'><a href='/starting-components/'>Starting Other Components</a></li><li class='nav-item'><a href='/activity-lifecycle/'>Driving the Activity Lifecycle</a></li><li class='nav-item'><a href='/custom-shadows/'>Creating Custom Shadows</a></li><li class='nav-item'><a href='/apklibs/'>Working with ApkLibs</a></li><li class='nav-item'><a href='/resource-qualifiers/'>Using Qualified Resources</a></li></ul><ul class='nav nav-stacked'><li class='nav-header'>Customizing</li><li class='nav-item'><a href='/extending/'>Extending Robolectric</a></li><li class='nav-item'><a href='/custom-test-runner/'>Custom the Test Runner</a></li><li class='nav-item'><a href='/roboguice/'>Integrating with RoboGuice</a></li></ul><ul class='nav nav-stacked'><li class='nav-header'>Contributing</li><li class='nav-item'><a href='/contributor-guidelines/'>Contributor Guidelines</a></li><li class='nav-item'><a href='/release-notes/'>Release Notes</a></li><li class='nav-item'><a href='/android-jars/'>Real Android JARs</a></li><li class='nav-item'><a href='/resources/'>Other Resources</a></li></ul>
+        </div>
+
+        <div id="content">
+            <h1>Getting Started</h1>
+
+<p><a href="http://github.com/robolectric/RobolectricSample">RobolectricSample</a> is a Maven-enabled sample app that shows how to layout your project, includes example tests, and a <code>build.xml</code> file for compiling and
+running tests.</p>
+
+<h2>Test Annotations</h2>
+
+<h2><code>@RunWith</code></h2>
+
+<p>To run your test with Robolectric, you need to tell JUnit using the <code>@RunWith</code> annotation on your test class:</p>
+<pre class="highlight java"><span class="nd">@RunWith</span><span class="o">(</span><span class="n">RobolectricTestRunner</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>  <span class="c1">// &lt;== REQUIRED for Robolectric!</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">HomeActivityTest</span> <span class="o">{</span>
+  <span class="nd">@Test</span> <span class="kd">public</span> <span class="kt">void</span> <span class="n">shouldHaveAButtonThatSaysPressMe</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+    <span class="c1">// test code here</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</pre>
+<h2><code>@Config</code></h2>
+
+<p>You can instruct Robolectric to configure Android differently for any test class or method.</p>
+<pre class="highlight java"><span class="nd">@RunWith</span><span class="o">(</span><span class="n">RobolectricTestRunner</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+<span class="nd">@Config</span><span class="o">(</span><span class="n">manifest</span> <span class="o">=</span> <span class="s">"AlternateManifest.xml"</span><span class="o">)</span> <span class="c1">// &lt;== use a non-standard manifest file</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">HomeActivityTest</span> <span class="o">{</span>
+  <span class="nd">@Config</span><span class="o">(</span><span class="n">qualifiers</span> <span class="o">=</span> <span class="s">"fr-land-hdpi"</span><span class="o">)</span> <span class="c1">// &lt;== use French resources on a sideways high-res display</span>
+  <span class="nd">@Test</span> <span class="kd">public</span> <span class="kt">void</span> <span class="n">shouldHaveAButtonThatSaysPressMe</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+    <span class="c1">// test code here</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</pre>
+<p>See the javadocs for <a href="/javadoc/org/robolectric/annotation/Config.html">org.robolectric.annotation.Config</a> for details.</p>
+
+<h2><code>Robolectric.shadowOf()</code></h2>
+
+<p>Sometimes Android classes don&rsquo;t provide methods to access the state of the Android objects under test. The
+ <code>Robolectric.shadowOf()</code> methods provide reference to the shadow instances representing Android objects,
+allowing tests to assert on state otherwise not available.</p>
+
+<p>Suppose the application assigns a drawable resource id on an <code>ImageView</code> in layout xml, like this:</p>
+<pre class="highlight xml"><span class="nt">&lt;ImageView</span>
+    <span class="na">android:id=</span><span class="s">"@+id/pivotal_logo"</span>
+    <span class="na">android:layout_width=</span><span class="s">"fill_parent"</span>
+    <span class="na">android:layout_height=</span><span class="s">"wrap_content"</span>
+    <span class="na">android:src=</span><span class="s">"@drawable/pivotallabs_logo"</span>
+    <span class="na">android:layout_marginBottom=</span><span class="s">"10dip"</span><span class="nt">&gt;</span>
+</pre>
+<p>Android provides no way to access the drawable resource id that was applied to the  <code>ImageView</code>.
+Robolectric&rsquo;s  <code>ShadowImageView</code> object records the drawable resource id so you can assert on it in test,
+like this:</p>
+<pre class="highlight java"><span class="nd">@Test</span>
+<span class="kd">public</span> <span class="kt">void</span> <span class="nf">shouldHaveALogo</span><span class="p">(</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+  <span class="n">ImageView</span> <span class="n">pivotalLogo</span> <span class="o">=</span> <span class="o">(</span><span class="n">ImageView</span><span class="o">)</span> <span class="n">activity</span><span class="o">.</span><span class="na">findViewById</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">id</span><span class="o">.</span><span class="na">pivotal_logo</span><span class="o">);</span>
+  <span class="n">ShadowImageView</span> <span class="n">shadowPivotalLogo</span> <span class="o">=</span> <span class="n">Robolectric</span><span class="o">.</span><span class="na">shadowOf</span><span class="o">(</span><span class="n">pivotalLogo</span><span class="o">);</span>
+  <span class="n">assertThat</span><span class="o">(</span><span class="n">shadowPivotalLogo</span><span class="o">.</span><span class="na">resourceId</span><span class="o">,</span> <span class="n">equalTo</span><span class="o">(</span><span class="n">R</span><span class="o">.</span><span class="na">drawable</span><span class="o">.</span><span class="na">pivotallabs_logo</span><span class="o">));</span>
+<span class="o">}</span>
+</pre>
+        </div>
+    </div>
+
+    <div id="footer">
+        
+    </div>
+</body>
+</html>
